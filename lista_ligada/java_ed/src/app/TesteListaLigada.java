@@ -18,5 +18,11 @@ public class TesteListaLigada {
 
         lista.adiciona("Caio");
         System.out.println(lista);
+
+        lista.adiciona(1,"Cesar");
+        System.out.println(lista);
+
+        lista.removeDoComeco();
+        System.out.println(lista);
     }
 }

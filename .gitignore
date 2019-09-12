@@ -45,3 +45,4 @@ hs_err_pid*
 .history
 
 # End of https://www.gitignore.io/api/java,code-java,visualstudiocode
+vetor/java/.vscode/launch.json

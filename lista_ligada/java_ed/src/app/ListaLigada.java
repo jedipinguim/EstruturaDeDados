@@ -5,7 +5,6 @@ public class ListaLigada {
     private Celula primeira = null;
     private Celula ultima = null;
     private int totalDeElementos = 0;
-    
 
     public void adicionaNoComeco(Object elemento) {
         Celula nova = new Celula(elemento, primeira);
@@ -19,7 +18,7 @@ public class ListaLigada {
     }
 
     public void adiciona(Object elemento) {
-        
+
         if (this.totalDeElementos == 0) {
             adicionaNoComeco(elemento);
         } else {
@@ -28,23 +27,75 @@ public class ListaLigada {
             this.ultima = nova;
             this.totalDeElementos++;
 
-        }        
+        }
     }
 
-    public void adiciona(int posicao, Object elemento) {}
+    private boolean posicaoOcupada(int posicao) {
+        return posicao >= 0 && posicao < this.totalDeElementos;
+    }
 
-    public Object pega(int posicao) { return null; }
+    private Celula pegaCelula(int posicao) {
 
-    public void remove(int posicao) {}
+        if (!posicaoOcupada(posicao)) {
+            throw new IllegalArgumentException("posicao inexistente");
+        }
 
-    public int tamanho() { return 0; }
+        Celula atual = primeira;
 
-    public boolean contem(Object o) { return false;}
+        for (int i = 0; i < posicao; i++) {
+            atual = atual.getProximo();
+        }
+
+        return atual;
+    }
+
+    public void adiciona(int posicao, Object elemento) {
+
+        if (posicao == 0) {
+            adicionaNoComeco(elemento);
+        } else if (posicao == this.totalDeElementos) {
+            adiciona(elemento);
+        } else {
+
+            Celula anterior = this.pegaCelula(posicao - 1);
+            Celula nova = new Celula(elemento, anterior.getProximo());
+            anterior.setProximo(nova);
+            this.totalDeElementos++;
+        }
+    }
+
+    public Object pega(int posicao) {
+        return this.pegaCelula(posicao).getElemento();
+    }
+
+    public void removeDoComeco() {
+        if (this.totalDeElementos == 0) {
+            throw new IllegalArgumentException("lista vazia");
+        }
+
+        this.primeira = this.primeira.getProximo();
+        this.totalDeElementos--;
+
+        if(this.totalDeElementos == 0) {
+            this.ultima = null;
+        }
+    }
+
+    public void remove(int posicao) {
+    }
+
+    public int tamanho() {
+        return this.totalDeElementos;
+    }
+
+    public boolean contem(Object o) {
+        return false;
+    }
 
     @Override
     public String toString() {
-        
-        if (this.totalDeElementos ==0 ) {
+
+        if (this.totalDeElementos == 0) {
             return "[]";
         }
 
@@ -53,13 +104,12 @@ public class ListaLigada {
         StringBuilder builder = new StringBuilder("[");
 
         for (int i = 0; i < totalDeElementos; i++) {
-    
+
             builder.append(atual.getElemento());
             builder.append(",");
 
             atual = atual.getProximo();
         }
-
 
         builder.append("]");
 
